@@ -1,0 +1,7 @@
+name: pynexus
+dependencies:
+  - python=3
+  - requests
+  - pip:
+    - tqdm
+    - coloredlogs
