@@ -17,6 +17,9 @@ class AppNexusAPI(BaseAPI):
     operating_system_extended = "%s/operating-system-extended" % BaseAPI.base_url
     change_log_url = '%s/change-log' % BaseAPI.base_url
     change_log_detail_url = '%s/change-log-detail' % BaseAPI.base_url
+    country_url = "%s/country" % BaseAPI.base_url
+    city_url = "%s/city" % BaseAPI.base_url
+    browser_url = '%s/browser' % BaseAPI.base_url
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -105,6 +108,18 @@ class AppNexusAPI(BaseAPI):
         resp = self._get_names(resp, 'operating-system') if only_names else resp
         return resp
 
+    def get_browser(self, one_id=None, search_term=None, only_names=True, **kwargs):
+        params = BaseAPI._get_params(one_id=one_id, search_term=search_term, **kwargs)
+        resp = self._make_request(method="GET", url=self.browser_url, params=params)
+        resp = self._get_names(resp, 'browser') if only_names else resp
+        return resp
+
+    def get_country(self, one_id=None, name=None, code=None, only_names=True, **kwargs):
+        params = BaseAPI._get_params(one_id=one_id, country_code=code, name=name, **kwargs)
+        resp = self._make_request(method="GET", url=self.country_url, params=params)
+        resp = self._get_names(resp, 'country') if only_names else resp
+        return resp
+
     def get_operating_system_extended(self, one_id=None, search_term=None, only_names=True, **kwargs):
         params = BaseAPI._get_params(one_id=one_id, search_term=search_term, **kwargs)
         resp = self._make_request(method="GET", url=self.operating_system_extended, params=params)
@@ -122,6 +137,14 @@ class AppNexusAPI(BaseAPI):
         params = BaseAPI._get_params(resource_id=resource_id, service=service, transaction_id=transaction_id, **kwargs)
         resp = self._make_request(method="GET", url=self.change_log_detail_url, params=params)
         resp = self._get_names(resp, 'change-log-detail') if only_names else resp
+        return resp
+
+    def get_city(self, country_code=None, country_name=None, dma_id=None, dma_name=None, one_id=None,
+                 name=None, only_names=True, **kwargs):
+        params = BaseAPI._get_params(country_code=country_code, country_name=country_name, dma_id=dma_id,
+                                     dma_name=dma_name, one_id=one_id, name=name, **kwargs)
+        resp = self._make_request(method="GET", url=self.city_url, params=params)
+        resp = self._get_names(resp, 'city') if only_names else resp
         return resp
 
     def get_segment(self, one_id=None, ids=None, advertiser_id=None, advertiser_code=None, code=None,

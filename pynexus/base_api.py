@@ -170,6 +170,8 @@ class BaseAPI(object):
                     advertiser_code=None, code=None, device_type=None, member_id=None,
                     publisher_code=None, publisher_id=None,
                     resource_id=None, service=None, transaction_id=None,
+                    country_code=None, country_name=None, dma_id=None, dma_name=None,
+                    name=None,
                     start_element=None, num_elements=None, filters=None):
         """
         Format the parameters for a request
@@ -210,6 +212,16 @@ class BaseAPI(object):
             params = {"service": service, "resource_id": resource_id, "transaction_id": transaction_id}
         elif service and resource_id:
             params = {"service": service, "resource_id": resource_id}
+        elif country_code:
+            params = {"country_code": country_code}
+        elif country_name:
+            params = {"country_name": country_code}
+        elif dma_id:
+            params = {"dma_id": country_code}
+        elif dma_name:
+            params = {"dma_name": country_code}
+        elif name:
+            params = {'name': name}
         else:
             # raise ValueError('No parameters specified')
             pass
