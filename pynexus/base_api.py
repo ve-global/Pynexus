@@ -76,6 +76,14 @@ class BaseAPI(object):
         if not self._verbose:
             logging.getLogger("requests").setLevel(logging.WARNING)
 
+        self._member_id = None
+
+    @property
+    def member_id(self):
+        if not self._member_id:
+            self.load_member_id()
+        return self._member_id
+
     @property
     def verbose(self):
         return self._verbose
@@ -164,6 +172,10 @@ class BaseAPI(object):
             f.close()
 
         return f if not path else None
+
+    def load_member_id(self):
+        resp = self._make_request(url="{}/member".format(self.base_url), method='GET')
+        self._member_id = resp['member']['id']
 
     @staticmethod
     def _get_params(ids=None, one_id=None, advertiser_id=None, search_term=None,
