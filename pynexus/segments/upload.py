@@ -23,7 +23,7 @@ METRICS = ['num_valid', 'num_invalid_user', 'num_unauth_segment',
 
 
 @clock()
-def upload_segment(segment_id, user_ids, member_id, verbose=False, metrics=METRICS):
+def upload_segment(segment_id, user_ids, verbose=False, metrics=METRICS, member_id=None):
     """
     Upload a segment with a list of user_ids to AppNexus
     :return:
@@ -33,7 +33,7 @@ def upload_segment(segment_id, user_ids, member_id, verbose=False, metrics=METRI
     data = '\n'.join([str(x) for x in user_ids])
     data_fmt = format_data(data, segment_id)
 
-    metrics = api.upload_segment(member_id, data_fmt, metrics=metrics)
+    metrics = api.upload_segment(data_fmt, metrics=metrics, member_id=member_id)
 
     return metrics
 

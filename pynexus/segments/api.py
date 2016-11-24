@@ -18,13 +18,13 @@ class SegmentAPI(BaseAPI):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    def get_segment_job_id(self, member_id):
+    def get_segment_job_id(self, member_id=None):
         return self._make_request(method='POST', url=self.batch_segment_url,
-                                  params={"member_id": member_id})
+                                  params={"member_id": member_id or self.member_id})
 
-    def _get_segment_job_id(self, member_id):
+    def _get_segment_job_id(self, member_id=None):
         resp = self._make_request(method='POST', url=self.batch_segment_url,
-                                  params={"member_id": member_id})
+                                  params={"member_id": member_id or self.member_id})
         if resp.get('error_code') == "DB_UNKNOWN":
             raise ValueError('Invalid member_id. Error: %s' % resp['error'])
 
@@ -39,11 +39,12 @@ class SegmentAPI(BaseAPI):
                                   data=data)
         return resp['segment_upload']['job_id']
 
-    def _get_segment_upload_progress(self, member_id, job_id):
+    def _get_segment_upload_progress(self, job_id, member_id=None):
+        member_id = member_id or self.member_id
         return self._make_request(method='GET', url=self.batch_segment_url,
                                   params={'member_id': member_id, 'job_id': job_id})
 
-    def upload_segment(self, member_id, data, metrics=None):
+    def upload_segment(self, data, metrics=None, member_id=None):
         """
         Upload a segment to AppNexus
 
@@ -52,6 +53,8 @@ class SegmentAPI(BaseAPI):
         :param metrics: specify the metrics to extract
         :return: dictionnary containing the metrics or if not specified  the full result
         """
+        member_id = member_id or self.member_id
+
         upload_url, job_id = self._get_segment_job_id(member_id)
         self._upload_segment(upload_url, data)
 
