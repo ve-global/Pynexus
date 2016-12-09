@@ -9,6 +9,6 @@ import logging
 logging.getLogger("pynexus").setLevel(logging.INFO)
 
 # exposing package version number
-__version__ = "1.1.9"
+__version__ = "1.2.0"
 
 
