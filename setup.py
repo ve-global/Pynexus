@@ -19,32 +19,12 @@ if not version:
     raise RuntimeError('Cannot find version information')
 
 setup(
-    # Application name:
     name="pynexus",
-
-    # Version number (initial):
     version=version,
-
-    # Application author details:
     author="Julien Brayere",
     author_email="julien.brayere@veinteractive.com",
-    #
-    # Packages
     packages=find_packages(),
-    #
-    # Include additional files into the package
     include_package_data=True,
-    #
-    # # Details
-    # url="http://pypi.python.org/pypi/MyApplication_v010/",
-    #
-    # #
-    # # license="LICENSE.txt",
-    # description="Useful towel-related stuff.",
-    #
-    # # long_description=open("README.txt").read(),
-    #
-    # # Dependent packages (distributions)
     install_requires=[
         "tqdm",
         "requests",

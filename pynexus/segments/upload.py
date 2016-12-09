@@ -1,13 +1,3 @@
-"""
-How to run:
-    - Make sure that the db and stats table exists (cf stats.py)
-    - Run `python -m segments.upload --year 2016 --month 7 --day 11 --db="test"`
-
-Batch segment upload:
-  - https://wiki.appnexus.com/display/api/Batch+Segment+Service
-
-"""
-
 import gzip
 
 from ..ve_utils import clock
