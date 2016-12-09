@@ -23,8 +23,9 @@ class SegmentAPI(BaseAPI):
                                   params={"member_id": member_id or self.member_id})
 
     def _get_segment_job_id(self, member_id=None):
+        member_id = member_id or self.member_id
         resp = self._make_request(method='POST', url=self.batch_segment_url,
-                                  params={"member_id": member_id or self.member_id})
+                                  params={"member_id": member_id})
         if resp.get('error_code') == "DB_UNKNOWN":
             raise ValueError('Invalid member_id. Error: %s' % resp['error'])
 
@@ -60,7 +61,7 @@ class SegmentAPI(BaseAPI):
 
         resp = None
         for i in range(0, self.max_retry):
-            resp = self._get_segment_upload_progress(member_id, job_id)
+            resp = self._get_segment_upload_progress(job_id=job_id, member_id=member_id)
             try:
                 if resp['status'] == "ERROR":
                     raise SegmentUploadError("[{error_code}]: {error}".format(error_code=resp['error_code'],
